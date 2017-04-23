@@ -12,6 +12,7 @@ import (
 	"github.com/go-ini/ini"
 	"os"
 	"flag"
+	"db"
 )
 
 func readCfg(filename string) *ini.File {
@@ -32,6 +33,17 @@ func main() {
 	port, err := sect.Key("port").Int()
 	if err != nil {
 		fmt.Println("Malformed port value in configuration file:", err)
+		os.Exit(1)
+	}
+
+
+	db, err := db.OpenDB(sect.Key("user").String(),
+		sect.Key("password").String(),
+		sect.Key("host").String(),
+		sect.Key("dbname").String(),
+		port)
+	if err != nil {
+		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
 
