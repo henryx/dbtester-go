@@ -6,3 +6,22 @@ License       GPL version 2 (see GPL.txt for details)
 */
 
 package database
+
+import (
+	"database/sql"
+	"strings"
+	_ "github.com/go-sql-driver/mysql"
+	"strconv"
+)
+
+
+
+func OpenDB(user, password, host, dbname string, port int) (*sql.DB, error) {
+	dsn := user + ":" + password + "@tcp(" + host + ":" + strconv.Itoa(port) + ")/" + dbname
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}
