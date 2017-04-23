@@ -5,7 +5,7 @@ Description   A simple database tester
 License       GPL version 2 (see GPL.txt for details)
 */
 
-package database
+package db
 
 import (
 	"database/sql"
