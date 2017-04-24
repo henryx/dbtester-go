@@ -13,13 +13,13 @@ import (
 )
 
 func OpenDB(engine, user, password, host, dbname string, port int) (*sql.DB, error) {
-	var db *sql.DB
+	var conn *sql.DB
 	var err error
 
 	switch engine {
 	case "mysql":
-		db, err = openMySQLDB(user, password, host, dbname, port)
-		return db, err
+		conn, err = openMySQLDB(user, password, host, dbname, port)
+		return conn, err
 	default:
 		return nil, errors.New("Unknown database engine: " + engine)
 	}
