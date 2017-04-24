@@ -26,6 +26,8 @@ func readCfg(filename string) *ini.File {
 }
 
 func main() {
+	var err error
+
 	cfgfile := flag.String("cfg", "", "Set the configuration file")
 	flag.Parse()
 
@@ -49,7 +51,9 @@ func main() {
 	}
 	defer dbconn.Close()
 
-	db.CheckStructure("mysql", dbname, dbconn)
+	if exist, err := db.CheckStructure("mysql", dbname, dbconn); err != nil || !exist {
+
+	}
 
 	fmt.Println("Hello World!")
 }
