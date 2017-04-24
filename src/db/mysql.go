@@ -28,7 +28,7 @@ func checkMySQLStructure(db *sql.DB, dbname string) bool {
 	}
 }
 
-func OpenDB(user, password, host, dbname string, port int) (*sql.DB, error) {
+func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error) {
 	dsn := user + ":" + password + "@tcp(" + host + ":" + strconv.Itoa(port) + ")/" + dbname
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
