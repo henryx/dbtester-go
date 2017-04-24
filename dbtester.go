@@ -25,24 +25,19 @@ func readCfg(filename string) *ini.File {
 	return res
 }
 
-func main() {
+func checkdb(sect *ini.Section) {
 	var err error
-
-	cfgfile := flag.String("cfg", "", "Set the configuration file")
-	flag.Parse()
-
-	cfg := readCfg(*cfgfile)
-	sect := cfg.Section("mysql")
-	port, err := sect.Key("port").Int()
-	if err != nil {
-		fmt.Println("Malformed port value in configuration file:", err)
-		os.Exit(1)
-	}
 
 	user := sect.Key("user").String()
 	password := sect.Key("password").String()
 	host := sect.Key("host").String()
 	dbname := sect.Key("database").String()
+
+	port, err := sect.Key("port").Int()
+	if err != nil {
+		fmt.Println("Malformed port value in configuration file:", err)
+		os.Exit(1)
+	}
 
 	dbconn, err := db.OpenDB("mysql", user, password, dbname, host, port)
 	if err != nil {
@@ -58,6 +53,15 @@ func main() {
 			os.Exit(1)
 		}
 	}
+}
 
-	fmt.Println("Hello World!")
+func main() {
+
+	cfgfile := flag.String("cfg", "", "Set the configuration file")
+	flag.Parse()
+
+	cfg := readCfg(*cfgfile)
+	sect := cfg.Section("mysql")
+
+	checkdb(sect)
 }
