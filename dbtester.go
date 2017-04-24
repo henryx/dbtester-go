@@ -25,7 +25,7 @@ func readCfg(filename string) *ini.File {
 	return res
 }
 
-func checkdb(sect *ini.Section) {
+func checkdb(engine string, sect *ini.Section) {
 	var err error
 
 	user := sect.Key("user").String()
@@ -39,15 +39,15 @@ func checkdb(sect *ini.Section) {
 		os.Exit(1)
 	}
 
-	dbconn, err := db.OpenDB("mysql", user, password, dbname, host, port)
+	dbconn, err := db.OpenDB(engine, user, password, dbname, host, port)
 	if err != nil {
 		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
 	defer dbconn.Close()
 
-	if exist, err := db.CheckStructure("mysql", dbname, dbconn); err != nil || !exist {
-		err = db.CreateStructure("mysql", dbconn)
+	if exist, err := db.CheckStructure(engine, dbname, dbconn); err != nil || !exist {
+		err = db.CreateStructure(engine, dbconn)
 		if err != nil {
 			fmt.Println("Error crreating database structure:", err)
 			os.Exit(1)
@@ -62,6 +62,7 @@ func main() {
 
 	cfg := readCfg(*cfgfile)
 	sect := cfg.Section("mysql")
+	engine := cfg.Section("general").Key("engine").String()
 
-	checkdb(sect)
+	checkdb(engine, sect)
 }
