@@ -27,6 +27,7 @@ func readCfg(filename string) *ini.File {
 
 func main() {
 	cfgfile := flag.String("cfg", "", "Set the configuration file")
+	flag.Parse()
 
 	cfg := readCfg(*cfgfile)
 	sect := cfg.Section("mysql")
