@@ -12,6 +12,19 @@ import (
 	"errors"
 )
 
+func OpenDB(engine, user, password, host, dbname string, port int) (*sql.DB, error) {
+	var db *sql.DB
+	var err error
+
+	switch engine {
+	case "mysql":
+		db, err = openMySQLDB(user, password, host, dbname, port)
+		return db, err
+	default:
+		return nil, errors.New("Unknown database engine: " + engine)
+	}
+}
+
 func CheckStructure(db *sql.DB, dbname, engine string) (bool, error) {
 	switch engine {
 	case "mysql":
