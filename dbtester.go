@@ -37,12 +37,15 @@ func main() {
 		os.Exit(1)
 	}
 
+	user := sect.Key("user").String()
+	password := sect.Key("password").String()
+	host := sect.Key("host").String()
+	dbname := sect.Key("dbname").String()
 
-	dbconn, err := db.OpenDB("mysql",
-		sect.Key("user").String(),
-		sect.Key("password").String(),
-		sect.Key("host").String(),
-		sect.Key("dbname").String(),
+	dbconn, err := db.OpenDB("mysql", user,
+		password,
+		host,
+		dbname,
 		port)
 	if err != nil {
 		fmt.Println("Error opening database connection:", err)
@@ -50,7 +53,7 @@ func main() {
 	}
 	defer dbconn.Close()
 
-	db.CheckStructure("mysql", sect.Key("dbname").String(), dbconn)
+	db.CheckStructure("mysql", dbname, dbconn)
 
 	fmt.Println("Hello World!")
 }
