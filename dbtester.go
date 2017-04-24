@@ -48,7 +48,7 @@ func main() {
 	}
 	defer dbconn.Close()
 
-
+	db.CheckStructure(dbconn, sect.Key("dbname").String(), "mysql")
 
 	fmt.Println("Hello World!")
 }
