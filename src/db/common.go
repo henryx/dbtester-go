@@ -9,11 +9,22 @@ package db
 
 import (
 	"database/sql"
+	"strings"
 	"errors"
 )
 
 func checkMySQLStructure(db *sql.DB, dbname string) bool {
-	return true
+	var counted int
+	query := strings.Join([]string{"SELECT count(*)",
+				       "FROM information_schema.tables",
+				       "WHERE table_schema = $1"}, " ")
+
+	db.QueryRow(query, dbname).Scan(&counted)
+	if counted > 0 {
+		return true
+	} else {
+		return false
+	}
 }
 
 func CheckStructure(db *sql.DB, dbname, engine string) (bool, error) {
