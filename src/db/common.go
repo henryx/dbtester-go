@@ -9,6 +9,10 @@ package db
 
 import "database/sql"
 
-func CheckStructure(db *sql.DB) bool {
+func checkMySQLStructure(db *sql.DB) bool {
 	return true
+}
+
+func CheckStructure(db *sql.DB) bool {
+	return checkMySQLStructure(db)
 }
