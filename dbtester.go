@@ -46,6 +46,7 @@ func main() {
 		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
+	defer db.Close()
 
 	fmt.Println("Hello World!")
 }
