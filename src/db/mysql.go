@@ -11,7 +11,22 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
+	"strings"
 )
+
+func checkMySQLStructure(db *sql.DB, dbname string) bool {
+	var counted int
+	query := strings.Join([]string{"SELECT count(*)",
+				       "FROM information_schema.tables",
+				       "WHERE table_schema = $1"}, " ")
+
+	db.QueryRow(query, dbname).Scan(&counted)
+	if counted > 0 {
+		return true
+	} else {
+		return false
+	}
+}
 
 func OpenDB(user, password, host, dbname string, port int) (*sql.DB, error) {
 	dsn := user + ":" + password + "@tcp(" + host + ":" + strconv.Itoa(port) + ")/" + dbname
