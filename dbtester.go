@@ -37,7 +37,8 @@ func main() {
 	}
 
 
-	dbconn, err := db.OpenDB(sect.Key("user").String(),
+	dbconn, err := db.OpenDB("mysql",
+		sect.Key("user").String(),
 		sect.Key("password").String(),
 		sect.Key("host").String(),
 		sect.Key("dbname").String(),
