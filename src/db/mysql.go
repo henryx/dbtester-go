@@ -14,24 +14,6 @@ import (
 	"strings"
 )
 
-func checkMySQLStructure(db *sql.DB, dbname string) bool {
-	var counted int
-	query := strings.Join([]string{"SELECT count(*)",
-				       "FROM information_schema.tables",
-				       "WHERE table_schema = $1"}, " ")
-
-	db.QueryRow(query, dbname).Scan(&counted)
-	if counted > 0 {
-		return true
-	} else {
-		return false
-	}
-}
-
-func createMySQLStructure(conn *sql.DB) error {
-	return nil
-}
-
 func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error) {
 	var conn *sql.DB
 	var err error
@@ -49,4 +31,22 @@ func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error)
 	}
 
 	return conn, nil
+}
+
+func checkMySQLStructure(db *sql.DB, dbname string) bool {
+	var counted int
+	query := strings.Join([]string{"SELECT count(*)",
+				       "FROM information_schema.tables",
+				       "WHERE table_schema = $1"}, " ")
+
+	db.QueryRow(query, dbname).Scan(&counted)
+	if counted > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func createMySQLStructure(conn *sql.DB) error {
+	return nil
 }
