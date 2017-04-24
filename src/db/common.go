@@ -31,6 +31,26 @@ func tables() []string {
 	return res
 }
 
+func views() []string {
+	var res []string
+
+	res = append(res, strings.Join([]string{
+		"CREATE OR REPLACE VIEW test AS",
+		"SELECT * FROM test1 UNION",
+		"SELECT * FROM test2 UNION",
+		"SELECT * FROM test3 UNION",
+		"SELECT * FROM test4 UNION",
+		"SELECT * FROM test5 UNION",
+		"SELECT * FROM test6 UNION",
+		"SELECT * FROM test7 UNION",
+		"SELECT * FROM test8 UNION",
+		"SELECT * FROM test9 UNION",
+		"SELECT * FROM test10"},
+		" "))
+
+	return res
+}
+
 func OpenDB(engine, user, password, dbname, host string, port int) (*sql.DB, error) {
 	var conn *sql.DB
 	var err error

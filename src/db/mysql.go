@@ -58,6 +58,15 @@ func createMySQLStructure(conn *sql.DB) error {
 			return err
 		}
 	}
+
+	for _, query := range views() {
+		_, err := tx.Exec(query)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+
 	tx.Commit()
 	return nil
 }
