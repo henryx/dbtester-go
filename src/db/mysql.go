@@ -48,5 +48,16 @@ func checkMySQLStructure(db *sql.DB, dbname string) bool {
 }
 
 func createMySQLStructure(conn *sql.DB) error {
+	var tx *sql.Tx
+
+	tx, _ = conn.Begin()
+	for _, query := range tables() {
+		_, err := tx.Exec(query)
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	tx.Commit()
 	return nil
 }
