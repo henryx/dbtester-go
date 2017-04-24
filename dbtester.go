@@ -37,7 +37,7 @@ func main() {
 	}
 
 
-	db, err := db.OpenDB(sect.Key("user").String(),
+	dbconn, err := db.OpenDB(sect.Key("user").String(),
 		sect.Key("password").String(),
 		sect.Key("host").String(),
 		sect.Key("dbname").String(),
@@ -46,7 +46,7 @@ func main() {
 		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
-	defer db.Close()
+	defer dbconn.Close()
 
 	fmt.Println("Hello World!")
 }
