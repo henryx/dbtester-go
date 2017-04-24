@@ -32,7 +32,7 @@ func CheckStructure(db *sql.DB, dbname, engine string) (bool, error) {
 	case "mysql":
 		return checkMySQLStructure(db, dbname), nil
 	default:
-		return nil, errors.New("Unknown database engine: " + engine)
+		return false, errors.New("Unknown database engine: " + engine)
 	}
 
 }
