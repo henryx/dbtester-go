@@ -42,7 +42,7 @@ func main() {
 	user := sect.Key("user").String()
 	password := sect.Key("password").String()
 	host := sect.Key("host").String()
-	dbname := sect.Key("dbname").String()
+	dbname := sect.Key("database").String()
 
 	dbconn, err := db.OpenDB("mysql", user, password, dbname, host, port)
 	if err != nil {
