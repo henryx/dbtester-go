@@ -6,3 +6,9 @@ License       GPL version 2 (see GPL.txt for details)
 */
 
 package db
+
+import "database/sql"
+
+func CheckStructure(db *sql.DB) bool {
+	return true
+}
