@@ -10,7 +10,26 @@ package db
 import (
 	"database/sql"
 	"errors"
+	"strings"
+	"fmt"
+	"strconv"
 )
+
+func tables() []string {
+	var res []string
+	for i := 1; i <= 10; i++ {
+		res = append(res,
+			fmt.Sprintf(
+				strings.Join([]string{
+					"CREATE TABLE test%s(",
+					"ins INTEGER,",
+					"date_ins INTEGER,",
+					"hour_ins INTEGER,",
+					"txt VARCHAR(30))",
+				}, " "), strconv.Itoa(i)))
+	}
+	return res
+}
 
 func OpenDB(engine, user, password, dbname, host string, port int) (*sql.DB, error) {
 	var conn *sql.DB
