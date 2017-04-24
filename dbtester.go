@@ -52,7 +52,11 @@ func main() {
 	defer dbconn.Close()
 
 	if exist, err := db.CheckStructure("mysql", dbname, dbconn); err != nil || !exist {
-		db.CreateStructure("mysql", dbconn)
+		err = db.CreateStructure("mysql", dbconn)
+		if err != nil {
+			fmt.Println("Error crreating database structure:", err)
+			os.Exit(1)
+		}
 	}
 
 	fmt.Println("Hello World!")
