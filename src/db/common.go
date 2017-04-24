@@ -12,7 +12,7 @@ import (
 	"errors"
 )
 
-func OpenDB(engine, user, password, host, dbname string, port int) (*sql.DB, error) {
+func OpenDB(engine, user, password, dbname, host string, port int) (*sql.DB, error) {
 	var conn *sql.DB
 	var err error
 

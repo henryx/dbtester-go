@@ -42,11 +42,7 @@ func main() {
 	host := sect.Key("host").String()
 	dbname := sect.Key("dbname").String()
 
-	dbconn, err := db.OpenDB("mysql", user,
-		password,
-		host,
-		dbname,
-		port)
+	dbconn, err := db.OpenDB("mysql", user, password, dbname, host, port)
 	if err != nil {
 		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
