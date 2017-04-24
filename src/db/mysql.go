@@ -28,6 +28,10 @@ func checkMySQLStructure(db *sql.DB, dbname string) bool {
 	}
 }
 
+func createMySQLStructure(conn *sql.DB) error {
+	return nil
+}
+
 func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error) {
 	var conn *sql.DB
 	var err error

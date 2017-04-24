@@ -33,3 +33,12 @@ func CheckStructure(engine, dbname string, conn *sql.DB) (bool, error) {
 		return false, errors.New("Unknown database engine: " + engine)
 	}
 }
+
+func CreateStructure(engine string, conn *sql.DB) error {
+	switch engine {
+	case "mysql":
+		return createMySQLStructure(conn)
+	default:
+		return errors.New("Unknown database engine: " + engine)
+	}
+}
