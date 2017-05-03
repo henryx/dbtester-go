@@ -15,6 +15,15 @@ import (
 	"db"
 )
 
+type ConnData struct {
+	Engine   string
+	User     string
+	Password string
+	Dbname   string
+	Host     string
+	Port     int
+}
+
 func readCfg(filename string) *ini.File {
 	res, err := ini.Load([]byte{}, filename)
 	if err != nil {
@@ -25,34 +34,42 @@ func readCfg(filename string) *ini.File {
 	return res
 }
 
-func checkdb(engine string, sect *ini.Section) {
+func checkdb(dbdata ConnData) {
 	var err error
 
-	user := sect.Key("user").String()
-	password := sect.Key("password").String()
-	host := sect.Key("host").String()
-	dbname := sect.Key("database").String()
-
-	port, err := sect.Key("port").Int()
-	if err != nil {
-		fmt.Println("Malformed port value in configuration file:", err)
-		os.Exit(1)
-	}
-
-	dbconn, err := db.OpenDB(engine, user, password, dbname, host, port)
+	dbconn, err := db.OpenDB(dbdata.Engine, dbdata.User, dbdata.Password, dbdata.Dbname, dbdata.Host, dbdata.Port)
 	if err != nil {
 		fmt.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
 	defer dbconn.Close()
 
-	if exist, err := db.CheckStructure(engine, dbname, dbconn); err != nil || !exist {
-		err = db.CreateStructure(engine, dbconn)
+	if exist, err := db.CheckStructure(dbdata.Engine, dbdata.Dbname, dbconn); err != nil || !exist {
+		err = db.CreateStructure(dbdata.Engine, dbconn)
 		if err != nil {
 			fmt.Println("Error crreating database structure:", err)
 			os.Exit(1)
 		}
 	}
+}
+
+func connInfo(engine string, sect *ini.Section) ConnData {
+	var res ConnData
+	var err error
+
+	res.Engine = engine
+	res.User = sect.Key("user").String()
+	res.Password = sect.Key("password").String()
+	res.Host = sect.Key("host").String()
+	res.Dbname = sect.Key("database").String()
+
+	res.Port, err = sect.Key("port").Int()
+	if err != nil {
+		fmt.Println("Malformed port value in configuration file:", err)
+		os.Exit(1)
+	}
+
+	return res
 }
 
 func main() {
@@ -64,5 +81,6 @@ func main() {
 	sect := cfg.Section("mysql")
 	engine := cfg.Section("general").Key("engine").String()
 
-	checkdb(engine, sect)
+	dbinfo := connInfo(engine, sect)
+	checkdb(dbinfo)
 }
