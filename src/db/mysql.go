@@ -12,7 +12,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 	"strings"
-	"fmt"
 )
 
 func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error) {
