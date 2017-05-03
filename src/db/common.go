@@ -67,7 +67,7 @@ func OpenDB(engine, user, password, dbname, host string, port int) (*sql.DB, err
 func CheckStructure(engine, dbname string, conn *sql.DB) (bool, error) {
 	switch engine {
 	case "mysql":
-		return checkMySQLStructure(conn, dbname), nil
+		return checkMySQLStructure(conn, dbname)
 	default:
 		return false, errors.New("Unknown database engine: " + engine)
 	}

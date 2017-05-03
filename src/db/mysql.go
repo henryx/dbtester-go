@@ -12,6 +12,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 	"strings"
+	"fmt"
 )
 
 func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error) {
@@ -33,17 +34,20 @@ func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error)
 	return conn, nil
 }
 
-func checkMySQLStructure(db *sql.DB, dbname string) bool {
+func checkMySQLStructure(db *sql.DB, dbname string) (bool, error) {
 	var counted int
 	query := strings.Join([]string{"SELECT count(*)",
 				       "FROM information_schema.tables",
 				       "WHERE table_schema = $1"}, " ")
 
-	db.QueryRow(query, dbname).Scan(&counted)
+	err := db.QueryRow(query, dbname).Scan(&counted)
+	if err != nil {
+		return nil, err
+	}
 	if counted > 0 {
-		return true
+		return true, nil
 	} else {
-		return false
+		return false, nil
 	}
 }
 
