@@ -54,15 +54,7 @@ func createMySQLStructure(conn *sql.DB) error {
 	var tx *sql.Tx
 
 	tx, _ = conn.Begin()
-	for _, query := range tables() {
-		_, err := tx.Exec(query)
-		if err != nil {
-			tx.Rollback()
-			return err
-		}
-	}
-
-	for _, query := range views() {
+	for _, query := range createViewTest() {
 		_, err := tx.Exec(query)
 		if err != nil {
 			tx.Rollback()

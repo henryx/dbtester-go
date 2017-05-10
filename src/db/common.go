@@ -15,37 +15,32 @@ import (
 	"strconv"
 )
 
-func tables() []string {
+func createViewTest() []string {
 	var res []string
 	for i := 1; i <= 10; i++ {
 		res = append(res,
 			fmt.Sprintf(
 				strings.Join([]string{
-					"CREATE TABLE test%s(",
+					"CREATE TABLE viewtest%s(",
 					"ins INTEGER,",
 					"date_ins INTEGER,",
 					"hour_ins INTEGER,",
 					"txt VARCHAR(30))",
 				}, " "), strconv.Itoa(i)))
 	}
-	return res
-}
-
-func views() []string {
-	var res []string
 
 	res = append(res, strings.Join([]string{
-		"CREATE OR REPLACE VIEW test AS",
-		"SELECT * FROM test1 UNION",
-		"SELECT * FROM test2 UNION",
-		"SELECT * FROM test3 UNION",
-		"SELECT * FROM test4 UNION",
-		"SELECT * FROM test5 UNION",
-		"SELECT * FROM test6 UNION",
-		"SELECT * FROM test7 UNION",
-		"SELECT * FROM test8 UNION",
-		"SELECT * FROM test9 UNION",
-		"SELECT * FROM test10"},
+		"CREATE OR REPLACE VIEW viewtest AS",
+		"SELECT * FROM viewtest1 UNION",
+		"SELECT * FROM viewtest2 UNION",
+		"SELECT * FROM viewtest3 UNION",
+		"SELECT * FROM viewtest4 UNION",
+		"SELECT * FROM viewtest5 UNION",
+		"SELECT * FROM viewtest6 UNION",
+		"SELECT * FROM viewtest7 UNION",
+		"SELECT * FROM viewtest8 UNION",
+		"SELECT * FROM viewtest9 UNION",
+		"SELECT * FROM viewtest10"},
 		" "))
 
 	return res
