@@ -8,11 +8,11 @@ License       GPL version 2 (see GPL.txt for details)
 package main
 
 import (
-	"github.com/go-ini/ini"
-	"os"
-	"flag"
 	"db"
+	"flag"
+	"github.com/go-ini/ini"
 	"io/ioutil"
+	"os"
 	"utils"
 )
 

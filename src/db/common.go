@@ -10,9 +10,9 @@ package db
 import (
 	"database/sql"
 	"errors"
-	"strings"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func createViewTest() []string {

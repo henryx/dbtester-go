@@ -8,8 +8,8 @@ License       GPL version 2 (see GPL.txt for details)
 package utils
 
 import (
-	"log"
 	"io"
+	"log"
 )
 
 var (

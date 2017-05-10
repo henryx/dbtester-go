@@ -36,8 +36,8 @@ func openMySQLDB(user, password, host, dbname string, port int) (*sql.DB, error)
 func checkMySQLStructure(db *sql.DB, dbname string) (bool, error) {
 	var counted int
 	query := strings.Join([]string{"SELECT count(*)",
-				       "FROM information_schema.tables",
-				       "WHERE table_schema = ?"}, " ")
+		"FROM information_schema.tables",
+		"WHERE table_schema = ?"}, " ")
 
 	err := db.QueryRow(query, dbname).Scan(&counted)
 	if err != nil {
