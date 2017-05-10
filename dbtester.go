@@ -8,11 +8,12 @@ License       GPL version 2 (see GPL.txt for details)
 package main
 
 import (
-	"fmt"
 	"github.com/go-ini/ini"
 	"os"
 	"flag"
 	"db"
+	"io/ioutil"
+	"utils"
 )
 
 type ConnData struct {
@@ -27,7 +28,7 @@ type ConnData struct {
 func readCfg(filename string) *ini.File {
 	res, err := ini.Load([]byte{}, filename)
 	if err != nil {
-		fmt.Println("Error about reading config file:", err)
+		utils.LogError.Println("Error about reading config file:", err)
 		os.Exit(1)
 	}
 
@@ -39,7 +40,7 @@ func createdb(dbdata ConnData) {
 
 	dbconn, err := db.OpenDB(dbdata.Engine, dbdata.User, dbdata.Password, dbdata.Dbname, dbdata.Host, dbdata.Port)
 	if err != nil {
-		fmt.Println("Error opening database connection:", err)
+		utils.LogError.Println("Error opening database connection:", err)
 		os.Exit(1)
 	}
 	defer dbconn.Close()
@@ -47,7 +48,7 @@ func createdb(dbdata ConnData) {
 	if exist, err := db.CheckStructure(dbdata.Engine, dbdata.Dbname, dbconn); err != nil || !exist {
 		err = db.CreateStructure(dbdata.Engine, dbconn)
 		if err != nil {
-			fmt.Println("Error crreating database structure:", err)
+			utils.LogError.Println("Error crreating database structure:", err)
 			os.Exit(1)
 		}
 	}
@@ -65,7 +66,7 @@ func connInfo(engine string, sect *ini.Section) ConnData {
 
 	res.Port, err = sect.Key("port").Int()
 	if err != nil {
-		fmt.Println("Malformed port value in configuration file:", err)
+		utils.LogError.Println("Malformed port value in configuration file:", err)
 		os.Exit(1)
 	}
 
@@ -73,12 +74,13 @@ func connInfo(engine string, sect *ini.Section) ConnData {
 }
 
 func main() {
+	utils.LogInit(ioutil.Discard, os.Stdout, os.Stdout, os.Stderr)
 
 	cfgfile := flag.String("cfg", "", "Set the configuration file")
 	flag.Parse()
 
 	if *cfgfile == "" {
-		fmt.Println("No configuration file passed. See help")
+		utils.LogError.Println("No configuration file passed. See help")
 		os.Exit(1)
 	}
 
