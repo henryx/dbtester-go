@@ -77,6 +77,11 @@ func main() {
 	cfgfile := flag.String("cfg", "", "Set the configuration file")
 	flag.Parse()
 
+	if *cfgfile == "" {
+		fmt.Println("No configuration file passed. See help")
+		os.Exit(1)
+	}
+
 	cfg := readCfg(*cfgfile)
 	sect := cfg.Section("mysql")
 	engine := cfg.Section("general").Key("engine").String()
