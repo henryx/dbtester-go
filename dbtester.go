@@ -34,7 +34,7 @@ func readCfg(filename string) *ini.File {
 	return res
 }
 
-func checkdb(dbdata ConnData) {
+func createdb(dbdata ConnData) {
 	var err error
 
 	dbconn, err := db.OpenDB(dbdata.Engine, dbdata.User, dbdata.Password, dbdata.Dbname, dbdata.Host, dbdata.Port)
@@ -87,5 +87,5 @@ func main() {
 	sect := cfg.Section(engine)
 
 	dbinfo := connInfo(engine, sect)
-	checkdb(dbinfo)
+	createdb(dbinfo)
 }
