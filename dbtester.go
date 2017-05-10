@@ -83,8 +83,8 @@ func main() {
 	}
 
 	cfg := readCfg(*cfgfile)
-	sect := cfg.Section("mysql")
 	engine := cfg.Section("general").Key("engine").String()
+	sect := cfg.Section(engine)
 
 	dbinfo := connInfo(engine, sect)
 	checkdb(dbinfo)
