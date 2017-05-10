@@ -41,7 +41,7 @@ func checkMySQLStructure(db *sql.DB, dbname string) (bool, error) {
 
 	err := db.QueryRow(query, dbname).Scan(&counted)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 	if counted > 0 {
 		return true, nil
